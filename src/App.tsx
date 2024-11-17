@@ -3,7 +3,7 @@ import React, { useState } from "react";
 type Player = "X" | "O" | null;
 
 const TicTacToe: React.FC = () => {
-  const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
+  const [board, setBoard] = useState<Player[]>(Array(9).fill(null)); // 各セルにはPlayer型の配列が入る
   const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
   const [winner, setWinner] = useState<Player>(null);
 
@@ -38,6 +38,7 @@ const TicTacToe: React.FC = () => {
     newBoard[index] = currentPlayer;
     setBoard(newBoard);
 
+    // 勝敗の処理と勝者がいなければターンの切り替えを行う
     const detectedWinner = checkWinner(newBoard);
     if (detectedWinner) {
       setWinner(detectedWinner);
