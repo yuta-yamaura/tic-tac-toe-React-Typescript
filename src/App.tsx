@@ -3,12 +3,12 @@ import React, { useState } from "react";
 type Player = "X" | "O" | null;
 
 const TicTacToe: React.FC = () => {
-  const [board, setBoard] = useState<Player[]>(Array(9).fill(null)); // 各セルにはPlayer型の配列が入る
+  const [board, setBoard] = useState<Player[]>(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState<Player>("X");
   const [winner, setWinner] = useState<Player>(null);
 
   // 勝利パターン
-  const winPatterns = [
+  const winPattern = [
     [0, 1, 2],
     [3, 4, 5],
     [6, 7, 8],
@@ -21,9 +21,11 @@ const TicTacToe: React.FC = () => {
 
   // 勝者チェック
   const checkWinner = (board: Player[]): Player | null => {
-    for (let pattern of winPatterns) {
+    for (let pattern of winPattern) {
       const [a, b, c] = pattern;
+      console.log(pattern);
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+        console.log(board[a]);
         return board[a];
       }
     }
@@ -32,21 +34,22 @@ const TicTacToe: React.FC = () => {
 
   // セルをクリックしたときの処理
   const handleClick = (index: number) => {
-    if (board[index] || winner) return; // 既に埋まっているセルか、勝者が決まっている場合は無効
+    if (board[index] || winner) return;
 
     const newBoard = [...board];
     newBoard[index] = currentPlayer;
+    console.log(newBoard[index]);
     setBoard(newBoard);
 
     // 勝敗の処理と勝者がいなければターンの切り替えを行う
     const detectedWinner = checkWinner(newBoard);
+    console.log(detectedWinner);
     if (detectedWinner) {
       setWinner(detectedWinner);
     } else {
       setCurrentPlayer(currentPlayer === "X" ? "O" : "X");
     }
   };
-
   // ゲームリセット
   const resetGame = () => {
     setBoard(Array(9).fill(null));
